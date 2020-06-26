@@ -91,3 +91,12 @@ We modified our Account Balance through memory hacking.
 
 Why would Windows even have such a function, you may ask? Well, "originally it intended to allow debuggers to establish breakpoints and maintain instance data for other processes, but in practice, it allows both passive attacks such as scanning memory for high-enthropy ares that constitute keys, and active attacks in which a target process' code or data is modified to provide supplemental functionality of benefit to a hostile process" (Cryptographic Security Architecture: Design and Verification
 By Peter Gutmann)
+
+Links:
+
+https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
+https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory
+https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess
+
+
+
