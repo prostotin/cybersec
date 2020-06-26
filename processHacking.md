@@ -93,4 +93,7 @@ Links:
 https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
 https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory
 https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess
+https://github.com/processhacker/processhacker
+https://github.com/cheat-engine/cheat-engine/
+
 
