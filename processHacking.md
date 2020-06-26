@@ -1,12 +1,12 @@
 ### Process Hacking
 
-Windows processes are easily hackable with native Windows tools. You can use ReadProcessMemory() and WriteProcessMemory() to Read memory, and Modify it. 
+Windows processes are easily hackable with native Windows tools. You can use ReadProcessMemory() and ReadProcessMemory() to read memory and modify it. 
 
-All you need is a handle to the given process, and you're set.
+All you need is a handle to the given process, and you are set.
 
 ### Creating the dummy program
 
-Let's start by creating a simple dummy program that will act as our target. 
+Let us start by creating a simple dummy program that will act as our target. 
 
 The following C++ code will result in a program that simply holds an integer value, an Account Balance, and displays it over and over upon pressing ENTER.
 
@@ -37,7 +37,7 @@ We then open ProcessHacker, and look up the PID of our program.
 
 ![Running](https://i.imgur.com/JMxteXj.png)
 
-### Creating the attacker proogram
+### Creating the attacker program
 
 Now let's create another program, that will be the Attacker. 
 
@@ -50,7 +50,7 @@ int main()
 	int dummyProcId = 7868; //dummy program process ID.
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, dummyProcId); //open handle with all access, including reading and writing. 
 	int accountBalance = 0; // a variable to store the read information
-	ReadProcessMemory(processHandle, (LPCVOID)(0x00CFFAE8), &accountBalance, sizeof(int), NULL); //read whats stored at 00CFFAE8 into accountBalance.
+	ReadProcessMemory(processHandle, (LPCVOID)(0x00CFFAE8), &accountBalance, sizeof(int), NULL); //read what’s stored at 00CFFAE8 into accountBalance.
 	std::cout << "Read account balance: " << accountBalance << std::endl; //print the result
 }
 ```
@@ -85,7 +85,7 @@ Now let's press ENTER in both of them:
 
 We modified our Account Balance through memory hacking. 
 
-Why would Windows even have such a function, you may ask? Well, "originally it intended to allow debuggers to establish breakpoints and maintain instance data for other processes, but in practice, it allows both passive attacks such as scanning memory for high-enthropy ares that constitute keys, and active attacks in which a target process' code or data is modified to provide supplemental functionality of benefit to a hostile process" (Cryptographic Security Architecture: Design and Verification
+Why would Windows even have such a function, you may ask? Well, "originally it intended to allow debuggers to establish breakpoints and maintain instance data for other processes, but in practice, it allows both passive attacks such as scanning memory for high-entropy areas that constitute keys, and active attacks in which a target process' code or data is modified to provide supplemental functionality of benefit to a hostile process" (Cryptographic Security Architecture: Design and Verification
 By Peter Gutmann)
 
 Links:
