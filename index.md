@@ -10,7 +10,7 @@ All you need is a handle to the given process, and you're set.
 
 Let's start by creating a simple dummy program that will act as our target. 
 
-The following C++ code will result in a program that simply holds 1 integer value, an Account Balance, and displays it over and over upon pressing ENTER.
+The following C++ code will result in a program that simply holds an integer value, an Account Balance, and displays it over and over upon pressing ENTER.
 
 ```C++
 #include <iostream>
