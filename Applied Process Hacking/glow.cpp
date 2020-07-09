@@ -1,14 +1,14 @@
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
-
+//offsets
 DWORD dwGlowObjectManager = 0x529A250;
 DWORD dwEntityList = 0x4D523EC;
 DWORD m_iGlowIndex = 0xA438;
-
+//entity data
 DWORD entity;
 DWORD glowIndex;
-
+//get module base address by the module's name
 DWORD GetModuleBaseExtern(const DWORD dwProcessId, const char* szModuleName) 
 {
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwProcessId);
@@ -27,7 +27,7 @@ DWORD GetModuleBaseExtern(const DWORD dwProcessId, const char* szModuleName)
 	CloseHandle(hSnap);
 	return dwReturn;
 }
-
+//Glow Object Struct that will be read and written
 struct GlowObjectDefinition_t
 {
 	void* pEntity; //entity pointer
@@ -41,7 +41,7 @@ struct GlowObjectDefinition_t
 	bool m_bFullBloom; //full bloom glow
 	uint8_t unk2[10]; //padding
 };
-
+//a template to read structs from memory
 template <typename var>
 var Read(DWORD Address, HANDLE processHandle)
 {
