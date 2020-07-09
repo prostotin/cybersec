@@ -12,7 +12,7 @@ During tournaments, the game is shown to spectators with a special spectator vie
 
 So this gives us a hint that there is a function in the game that highlights the players when prompted. 
 
-Upon doing some research, people who reverse engeneered the game managed to find out that the Glowing effect is handled by the Glow Object Manager.
+Upon doing some research, people who reverse engineered the game managed to find out that the Glowing effect is handled by the Glow Object Manager.
 
 The Glow Object Manager holds the Glow Object Definition, which consists of the Entity pointer and its properties. 
 
