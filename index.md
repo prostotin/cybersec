@@ -4,7 +4,7 @@
 
 Hacking Windows processes by Reading and Writing process memory. 
 
-# [Applying Process Hacking](https://prostotin.github.io/CyberSecurity/processhackingapplied) 
+# [Applying Process Hacking](https://prostotin.github.io/cybersecurity/processhackingapplied) 
 
 Applying Process Hacking in a real-world example.
 
