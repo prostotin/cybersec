@@ -8,5 +8,8 @@ Hacking Windows processes by Reading and Writing process memory.
 
 Applying Process Hacking in a real-world example.
 
+# [Network Tapping](https://prostotin.github.io/cybersecurity/networktap) 
+
+Using a simple network tap to sniff packets.
 
 
