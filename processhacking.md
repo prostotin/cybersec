@@ -10,21 +10,8 @@ Let us start by creating a simple dummy program that will act as our target.
 
 The following C++ code will result in a program that simply holds an integer value, an Account Balance, and displays it over and over upon pressing ENTER.
 
-```C++
-#include <iostream>
-#include <stdlib.h>
-int main()
-{
-	int accountBalance = 12345; //Starting account balance
-	for (;;) { //infinite loop
-		std::cout << "Your account balance is: " << accountBalance << std::endl; //display balance
-		std::cout << "Press ENTER to refresh"; 
-		getchar(); //
-		std::cout << "---------" << std::endl;
-	}
+![Running](https://i.imgur.com/r2Ebyw6.png)
 
-}
-```
 After compiling and running it we are greeted with a console window:
 
 ![Running](https://i.imgur.com/18Q3FRP.png)
@@ -42,18 +29,10 @@ We then open ProcessHacker, and look up the PID of our program.
 Now let's create another program, that will be the Attacker. 
 
 The following C++ code gets access to our dummyProcess by its process ID, and then reads the memory location into a variable.
-```C++
-#include <iostream>
-#include "Windows.h"
-int main()
-{
-	int dummyProcId = 7868; //dummy program process ID.
-	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, dummyProcId); //open handle with all access, including reading and writing. 
-	int accountBalance = 0; // a variable to store the read information
-	ReadProcessMemory(processHandle, (LPCVOID)(0x00CFFAE8), &accountBalance, sizeof(int), NULL); //read what’s stored at 00CFFAE8 into accountBalance.
-	std::cout << "Read account balance: " << accountBalance << std::endl; //print the result
-}
-```
+
+
+![Running](https://i.imgur.com/7Sgcgko.png)
+
 After running it, we can see that we successfully read the variable from a different process!
 
 ![Running](https://i.imgur.com/zVgAWhQ.png)
@@ -68,11 +47,8 @@ We already know that it's stored at 0x00CFFAE8, so let's just write our desired 
 
 So let's add this code to do just that:
 
-```C++
-int desiredBalance = 999999; //the value that we will be writing to the address
-WriteProcessMemory(processHandle, (LPVOID)(0x00CFFAE8), &desiredBalance, sizeof(int), NULL); //writes to 0x00CFFAE8
-std::cout << "Value successfully written" << std::endl;
-```
+![Running](https://i.imgur.com/G89jCLq.png)
+
 Now let's run them together:
 
 ![Running](https://i.imgur.com/c13N4WF.png)
