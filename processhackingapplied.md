@@ -16,21 +16,9 @@ Upon doing some research, people who reverse engineered the game managed to find
 
 The Glow Object Manager holds the Glow Object Definition, which consists of the Entity pointer and its properties. 
 
-```C++
-	struct GlowObjectDefinition_t
-	{
-		void* pEntity; //entity pointer
-		float r; //red
-		float g; //green
-		float b; //blue
-		float a; //alpha
-		uint8_t unk1[16]; //unknown, padding
-		bool m_bRenderWhenOccluded; //should render?
-		bool m_bRenderWhenUnoccluded; 
-		bool m_bFullBloom; //full bloom glow
-		uint8_t unk2[10]; //padding
-	};
-```
+
+![CSGO](https://i.imgur.com/5undaSl.png)
+
 
 To get to that in memory, we have to jump through a few hoops, specifically:
 
@@ -50,26 +38,7 @@ To find client.dll in memory, we need a function that loops through every module
 
 The following code will do just that: 
 
-```C++
-DWORD GetModuleBaseExtern(const DWORD dwProcessId, const char* szModuleName) 
-{
-	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwProcessId);
-	if (!hSnap) return 0;
-	MODULEENTRY32 me;
-	me.dwSize = sizeof(MODULEENTRY32);
-	DWORD dwReturn = 0;
-	if (Module32First(hSnap, &me)) { //iterate through every module(dll) until a matching one is found
-		while (Module32Next(hSnap, &me)) {
-			if (lstrcmpi(me.szModule, szModuleName) == 0) {
-				dwReturn = (DWORD)me.modBaseAddr;
-				break;
-			}
-		}
-	}
-	CloseHandle(hSnap);
-	return dwReturn;
-}
-```
+![CSGO](https://i.imgur.com/ysqHkyj.png)
 
 Let's start with the same thing as before: we need the process ID and a handle to the process to be able to Read and Write memory.
 
@@ -83,6 +52,9 @@ std::cout << "CLIENT BASE: " << clientDllBase << std::endl;
 
 HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, procId); //open handle 
   ```
+ 
+ ![PID](https://i.imgur.com/7OpyI3I.png)
+  
 Let's cross reference this piece of code with what Process Hacker gives us: 
 
 ![PID](https://i.imgur.com/3m2dS7z.png)
@@ -93,58 +65,28 @@ Now we need to grab some offsets.
 
 Here is the list of the ones we need right now:
 
-```C++
-DWORD dwGlowObjectManager = 0x529A250;
-DWORD dwEntityList = 0x4D523EC;
-DWORD m_iGlowIndex = 0xA438;
-```
+
+![PID](https://i.imgur.com/3BuTeEK.png)
+
 That's it. Let's get Reading!
 
 First we need to read the GlowOjectManager in.
 
-```C++
-DWORD glowManager; //glowobjectmanager 
-ReadProcessMemory(processHandle, (LPCVOID)(clientDllBase + dwGlowObjectManager), &glowManager, sizeof(glowManager), NULL);
-```
+
+![PID](https://i.imgur.com/fY4nOxI.png)
+
 Since we need to read a struct, let's add a function template that will allow us to work with generic types.
 
-```C++
-template <typename var>
-var Read(DWORD Address, HANDLE processHandle)
-{
-	var value{};
-	__try
-	{
-		ReadProcessMemory(processHandle, (LPVOID)Address, &value, sizeof(var), 0);
-	}
-	__except (EXCEPTION_ACCESS_VIOLATION) {}
-	return value;
-}
-```
+
+![PID](https://i.imgur.com/eUKrb7o.png)
+
+
 
 Then we need to loop through every entity, read its glowIndex, get its Glow Object Data, modify it inside our program, and then Write it back.
 
-```C++
-for (int i = 1; i <= 64; i++) { //a loop to loop through every entity (max 64 players). (needs to be nested in an infinite loop of course)
-			ReadProcessMemory(processHandle, (LPCVOID)(clientDllBase + dwEntityList + (i * 0x10)), &entity, sizeof(entity), NULL); //read in the entity
 
-			ReadProcessMemory(processHandle, (LPCVOID)(entity + m_iGlowIndex), &glowIndex, sizeof(glowIndex), NULL); //read the glowIndex of the entity
-      
-			GlowObjectDefinition_t glowData = Read<GlowObjectDefinition_t>(glowManager + (glowIndex * 0x38), processHandle); //read Glow object data
+![GLOW](https://i.imgur.com/h7IPySc.png)
 
-			//modify glow object data to set a desired color and alpha
-			glowData.a = 0.7f;
-			glowData.r = 0.5f;
-			glowData.g = 0.5f;
-			glowData.b = 1.f;
-
-			//modify glow object data to enable glow
-			glowData.m_bRenderWhenOccluded = true;
-			glowData.m_bRenderWhenUnoccluded = false;
-			//write glow object data back to memory
-			WriteProcessMemory(processHandle, (LPVOID)(glowManager + (glowIndex * 0x38)), &glowData, sizeof(glowData), NULL); 
-		}
-```
 So let's see what this does!
 
 ![GLOW](https://i.imgur.com/QtpLLPA.png)
