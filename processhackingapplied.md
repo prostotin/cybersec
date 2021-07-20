@@ -42,18 +42,8 @@ The following code will do just that:
 
 Let's start with the same thing as before: we need the process ID and a handle to the process to be able to Read and Write memory.
 
-```C++
-HWND hwnd = FindWindowA(0, "Counter-Strike: Global Offensive"); //get hwnd of csgo 
-GetWindowThreadProcessId(hwnd, &csgoProcessId); //get procid of csgo
-std::cout << "CSGO PID: " << csgoProcessId << std::endl;
-
-DWORD clientDllBase = GetModuleBaseExtern(csgoProcessId, "client.dll");
-std::cout << "CLIENT BASE: " << clientDllBase << std::endl;
-
-HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, procId); //open handle 
-  ```
  
- ![PID](https://i.imgur.com/7OpyI3I.png)
+![PID](https://i.imgur.com/7OpyI3I.png)
   
 Let's cross reference this piece of code with what Process Hacker gives us: 
 
