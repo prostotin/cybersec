@@ -28,7 +28,7 @@ We then open ProcessHacker, and look up the PID of our program.
 
 Now let's create another program, that will be the Attacker. 
 
-The following C++ code gets access to our dummyProcess by its process ID, and then reads the memory location into a variable.
+The following C++ code gets access to our dummyProcess by its process ID, and then reads the value from the memory location into a variable.
 
 
 ![Running](https://i.imgur.com/7Sgcgko.png)
