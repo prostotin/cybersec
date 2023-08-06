@@ -12,7 +12,4 @@ Applying Process Hacking in a real-world example.
 
 Using a simple network tap to sniff packets.
 
-# [My SSCP certification story](https://prostotin.github.io/cybersecurity/sscp) 
-
-My experience with getting an industry-recognized certification 
 
